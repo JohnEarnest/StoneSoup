@@ -65,7 +65,7 @@ We only need an x-position for the player, as `ground` will provide the y-positi
 		vy = force * sin(angle);
 		px = player;
 		py = ground[player];
-		line(px, py, px + (5 * vx), py + (5 * py)); // the cannon's barrel
+		line(px, py, px + (5 * vx), py + (5 * vy)); // the cannon's barrel
 	}
 
 Of course, this isn't very useful unless we can actually aim. Let's write a `keyReleased()` procedure which alters the angle when the left and right cursor keys are released and alters the force of the cannon in response to the up and down keys:
