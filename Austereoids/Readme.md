@@ -50,14 +50,14 @@ Now that we've described what a `Rock` is, we can create some. Let's begin by wr
 		background(0, 0, 0);
 	}
 
-We want to support having an arbitrary number of `Rock`s in the game. To do this, we'll create a `List`. `List`s are like arrays, except they can grow and shrink as we add and remove items. Let's create a `List` to store rocks:
+We want to support having an arbitrary number of `Rock`s in the game. To do this, we'll create an `ArrayList`. `ArrayList`s are like arrays, except they can grow and shrink as we add and remove items. Let's create an `ArrayList` to store rocks:
 
-	List<Rock> rocks = new ArrayList<Rock>();
+	ArrayList<Rock> rocks = new ArrayList<Rock>();
 
-The name in `<>` specifies the type of Object the `List` will contain- in this case, `Rock` Objects. when we create the `List` we say `new ArrayList<Rock>()`. An `ArrayList` is a more specific kind of `List` which stores its contents in a particular way, much like how a `Rock` is a more specific kind of `Mobile` which adds behaviors. The precise details of how `ArrayList`s work are not important for the time being- we just know it can do everything a `List` can.
+The name in `<>` specifies the type of Object the `ArrayList` will contain- in this case, `Rock` Objects. when we create the `ArrayList` we say `new ArrayList<Rock>()`.
 
 Now that we have a place to store our rocks, let's create some:
-	
+
 	void setup() {
 		size(480, 480);
 		rectMode(CENTER);
@@ -78,24 +78,24 @@ Now we'd like to make those rocks show up on the screen and do something. An ind
 		}
 	}
 
-Notice that we use the `size()` of our `List` to determine the upper bound of this loop- this way, as `rocks` grows and shrinks we'll always `move()` every `Rock`. We then use `x` to access elements of `rocks` by index via the `get()` procedure. Indices for `get()`, just like array indices, count from 0.
+Notice that we use the `size()` of our `ArrayList` to determine the upper bound of this loop- this way, as `rocks` grows and shrinks we'll always `move()` every `Rock`. We then use `x` to access elements of `rocks` by index via the `get()` procedure. Indices for `get()`, just like array indices, count from 0.
 
 The next thing we need for a proper "Asteroids" clone is a spaceship. Since a Ship is a thing that moves through space, we can begin by subclassing `Mobile` again. A Ship works like a `Mobile`, except that it has a rotation, it starts in the center of the screen and it draws itself as a triangle, rotated by some amount:
 
 	class Ship extends Mobile {
 		float r = -PI / 2; // initially facing straight up
-	
+
 		Ship() {
 			px = 240;
 			py = 240;
 		}
-	
+
 		void move() {
 			super.move();
 			pushMatrix();
 			translate(px, py);
 			rotate(r);
-			triangle(0, 0, -10, 10, -10, -10);
+			triangle(5, 0, -5, 10, -5, -10);
 			popMatrix();
 		}
 	}
@@ -126,7 +126,7 @@ Next we want to make the player move in response to keyboard keys being pressed.
 		// draw the Ship...
 	}
 
-Spiffy. This is starting to feel like a game! To add an element of danger, let's make it so that the 	`Ship` can be destroyed by collding with `Rock`s. As we move the `Rock`s, we'll check to see if the `player` is within a small radius. If that's the case, we'll replace the `player` with a new instance of `Ship`. Since new `Ship`s start out in the center of the screen, this will have the effect of resetting the game.
+Spiffy. This is starting to feel like a game! To add an element of danger, let's make it so that the `Ship` can be destroyed by collding with `Rock`s. As we move the `Rock`s, we'll check to see if the `player` is within a small radius. If that's the case, we'll replace the `player` with a new instance of `Ship`. Since new `Ship`s start out in the center of the screen, this will have the effect of resetting the game.
 
 	void draw() {
 		background(0, 0, 0);
@@ -163,9 +163,9 @@ To begin with, let's define a class to represent bullets. Like everything else s
 		}
 	}
 
-Next, we'll make it so that the player can create new bullets when the spacebar is pressed. Just like our `List` which keeps track of all the rocks in space, we'll make a new `List` of `Bullet`s, and then extend `Ship.move()` to spawn new `Bullet`s:
+Next, we'll make it so that the player can create new bullets when the spacebar is pressed. Just like our `ArrayList` which keeps track of all the rocks in space, we'll make a new `ArrayList` of `Bullet`s, and then extend `Ship.move()` to spawn new `Bullet`s:
 
-	List<Bullet> bullets = new ArrayList<Bullet>();
+	ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	class Ship {
 		// ...
@@ -194,14 +194,14 @@ This compiles fine, but nothing new seems to happen. That's because we never wal
 
 Wonderful. You'll notice that bullets seem to appear as long chains- this is because we're spawning a new bullet every time `Ship.move()` is called, which happens 60 times per second! See if you can figure out how to add a time delay to regulate your `Ship`'s firing rate.
 
-The last thing we need to do is make `Bullet`s destroy `Rock`s. This will work similarly to the collision code we already have in place. Expand our code which instructs each `Bullet` to move, so that for each `Bullet` we consider every `Rock`. If a `Rock` is sufficiently close to the given `Bullet`, we'll remove both from their respective `List`s:
+The last thing we need to do is make `Bullet`s destroy `Rock`s. This will work similarly to the collision code we already have in place. Expand our code which instructs each `Bullet` to move, so that for each `Bullet` we consider every `Rock`. If a `Rock` is sufficiently close to the given `Bullet`, we'll remove both from their respective `ArrayList`s:
 
 	void draw() {
 		for(int x = 0; x < bullets.size(); x++) {
 			Bullet b = bullets.get(x);
 			b.move();
 			for(int y = 0; y < rocks.size(); y++) {
-				Rock r = rocks.get(x);
+				Rock r = rocks.get(y);
 				if (dist(b.px, b.py, r.px, r.py) < 15) {
 					bullets.remove(b);
 					rocks.remove(r);
