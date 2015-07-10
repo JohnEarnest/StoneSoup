@@ -42,12 +42,12 @@ class Ship extends Mobile {
     pushMatrix();
     translate(px, py);
     rotate(r);
-    triangle(0, 0, -10, 10, -10, -10);
+    triangle(5, 0, -5, 10, -5, -10);
     popMatrix();
   }
 }
 
-List<Rock> rocks = new ArrayList<Rock>();
+ArrayList<Rock> rocks = new ArrayList<Rock>();
 Ship player = new Ship();
 
 void setup() {

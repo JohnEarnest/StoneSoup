@@ -100,9 +100,9 @@ Here, state 0 will represent aiming (our initial state) while state 1 will repre
 		}
 	}
 
-We'll also have to alter `keyPressed()`. We should only be able to aim during state 0, and when space is pressed we should fire the cannon, which means we will transition to state 1.
+We'll also have to alter `keyReleased()`. We should only be able to aim during state 0, and when space is pressed we should fire the cannon, which means we will transition to state 1.
 
-	void keyPressed() {
+	void keyReleased() {
 		if (state == 0) {
 			if (key == ' ') { state = 1; }
 			if (keyCode == LEFT ) { angle -= .1; }
@@ -115,7 +115,7 @@ We'll also have to alter `keyPressed()`. We should only be able to aim during st
 When using state machines, first plan out the exclusive behaviors comprising your game and figure out how to split things up. Then consider the conditions that will cause a transition from one state to another. Drawing a picture can be a good way to organize your thoughts.
 
 We can aim and fire, and the projectile moves through the air, but it never stops- we aren't detecting collisions and transitioning back to state 0. If we had a procedure called `checkHit()` which returned true when the projectile collided with the terrain, we could update `draw()` to look something like this:
-	
+
 	void draw() {
 		// ...
 		if (state == 1) {

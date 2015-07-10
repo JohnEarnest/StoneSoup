@@ -31,7 +31,7 @@ Somewhere during `setup()`, initialize the `PImage` by using `loadImage()`:
 
 Somewhere during `draw()`, call `image()`, to draw a `PImage` to the screen:
 
-	void setup() {
+	void draw() {
 		background(0, 0, 0);
 		image(player, 100, 100);
 	}
@@ -41,7 +41,7 @@ In our game, we're going to use a grid of 64x64 images- "tiles"- to make up the 
 Begin by creating 64x64 graphics for a background texture, a floor texture, and a solid wall. As before, we'll declare variables to store our images and load the images before we can display them.
 
 	PImage[] tiles = new PImage[3];
-	
+
 	void setup() {
 		tiles[0] = loadImage("background.png");
 		tiles[1] = loadImage("ground.png");
@@ -54,7 +54,7 @@ Since our window is 640x640 and our tiles are 64x64, we can fit a 10x10 grid of 
 	  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 	  { 0, 2, 2, 2, 2, 2, 2, 2, 0, 0 },
 	  { 0, 2, 1, 1, 1, 2, 1, 2, 2, 0 },
-	  { 0, 2, 1, 1, 1, 2, 1, 3, 2, 0 },
+	  { 0, 2, 1, 1, 1, 2, 1, 2, 2, 0 },
 	  { 0, 2, 1, 1, 1, 2, 1, 2, 2, 0 },
 	  { 0, 2, 1, 1, 1, 1, 1, 2, 0, 0 },
 	  { 0, 2, 2, 2, 2, 1, 2, 2, 0, 0 },
@@ -152,8 +152,8 @@ Before we update the player's position, we check if they're trying to move onto 
 
 If we manage to update the player's position, we can then take away the gems and change the tile into normal ground:
 
-	if (grid[py][px] == 4) {
-		gems += 1;
+	if (grid[py][px] == 5) {
+		gems -= 3;
 		grid[py][px] = 1;
 	}
 
@@ -173,7 +173,7 @@ One of the first things many students wish to add to their game is multiple leve
 	int[][] grid = level1;
 
 Now we can determine what level we're on by comparing grid with one of those other arrays using `==` and we can redirect grid to a different level by reassigning it. Imagine we wanted to make it so that standing on tile type 7 while on level 1 teleports us to tile (3, 5) on level 2. We could add the following logic to `move()` before repositioning the player:
-	
+
 	if (tile == 7 && grid == level1) {
 		grid = level2;
 		px = 3;
@@ -184,7 +184,7 @@ Now we can determine what level we're on by comparing grid with one of those oth
 The `return` ensures that after changing the level no other teleporters are activated and the player position is not changed afterwards. In this example we made any tile 7 work as a teleporter but if we have several which go to different locations we might check the player's position rather than the tile the player is standing on.
 
 You could also change levels when the player walks off the edge of one board, creating the appearance that the player has walked onto the new level from the opposite edge:
-	
+
 	if (py < 0 && grid == level1) {
 		grid = level2;
 		py = 9;
