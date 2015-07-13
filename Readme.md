@@ -10,6 +10,16 @@ This project will serve as a repository of my course materials for that class an
 
 Every example will include a `.pde` file containing the source of the template program and a readme file discussing the program, the ideas it seeks to teach, a step-by-step tutorial on how the pieces fit together, and discussion of possible improvements to the template. If the program requires any external resources (graphics, etc), placeholders are provided- all the examples are "ready to run".
 
+A suggested course order might be:
+
+- [Icebreaker Activities](Icebreakers.md)
+
+- [Canonical](Canonical/)
+
+- [Dungine](Dungine/)
+
+- [Austereoids](Austereoids/)
+
 Rationale
 ---------
 
